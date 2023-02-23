@@ -5,14 +5,21 @@ import rateLimit from 'express-rate-limit';
 import { router as productRoute } from './routes/products-routes.js';
 dotenv.config();
 
+
+const app = express();
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
 	max: 5, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
 	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+	message: async (req, res) => {
+		return res.status(429).json({
+			message: "You can only make up to 5 request per 15 minutes, please try again later",
+			code: 429,
+			status: "TOO_MANY_REQUEST"
+		})
+	}
 })
-
-const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
