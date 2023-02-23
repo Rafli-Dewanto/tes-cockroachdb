@@ -16,7 +16,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: [process.env.ALLOW_ORIGIN, 'http://localhost:5173']
+    origin: [process.env.ALLOW_ORIGIN, 'http://127.0.0.1:5173'],
+	credentials: true,
+	optionsSuccessStatus: 200,
+	methods: ['GET']
 }))
 app.use(limiter)
 app.use('/products', productRoute);
