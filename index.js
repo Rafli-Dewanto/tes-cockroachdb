@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: 'https://tes-cockroachdb-production.up.railway.app'
+    origin: process.env.ALLOW_ORIGIN
 }))
 app.use(limiter)
 app.use('/products', productRoute);
